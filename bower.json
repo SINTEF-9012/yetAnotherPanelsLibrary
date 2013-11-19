@@ -1,0 +1,7 @@
+{
+	"name": "yetAnotherPanelsLibrary",
+	"version": "0.0.0",
+	"dependencies": {
+		"iscroll": "~5.0.6"
+	}
+}
