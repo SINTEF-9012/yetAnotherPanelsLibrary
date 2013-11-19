@@ -1,7 +1,8 @@
 {
-	"name": "yetAnotherPanelsLibrary",
-	"version": "0.0.0",
-	"dependencies": {
-		"iscroll": "~5.0.6"
-	}
+  "name": "yetAnotherPanelsLibrary",
+  "version": "0.0.0",
+  "dependencies": {
+    "iscroll": "~5.0.6",
+    "jquery": "~2.0.3"
+  }
 }

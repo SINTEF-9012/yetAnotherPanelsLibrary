@@ -8,7 +8,7 @@ module.exports = function (grunt) {
                   '!lib/reference.ts',
                   '!lib/{,*/}*.d.ts',
                   'tests/{,*/}*.ts',
-                  '!test/{,*/}*.d.ts'];
+                  '!tests/{,*/}*.d.ts'];
 
   grunt.initConfig({
     watch: {
@@ -18,6 +18,8 @@ module.exports = function (grunt) {
         },
         files: [
           'tests/{,*/}*.html',
+          'tests/{,*/}*.css',
+          'tests/{,*/}*.js',
           'css/{,*/}*.css',
           'lib/{,*/}*.js'
         ]
@@ -69,7 +71,8 @@ module.exports = function (grunt) {
           base: [
           	'lib',
           	'tests',
-          	'css'
+          	'css',
+            'bower_components'
           ]
         }
       }
