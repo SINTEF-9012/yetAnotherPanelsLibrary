@@ -19,13 +19,20 @@ module yapl {
 		}
 
 		width() {
-			if (this.active) return this.element.width();
-			else return 0;
+			if (this.active) {
+				return this.element.width();
+			}
+			else {
+				return 0;
+			}
 		}
 
 		height() {
-			if (this.active) return this.element.height();
-			else return 0;
+			if (this.active) {
+				return this.element.height();
+			} else {
+				return 0;
+			}
 		}
 
 		show() {
