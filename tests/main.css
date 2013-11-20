@@ -62,6 +62,20 @@ margin-bottom:20px;
 #top {
 	height: 200px;
 }
+
+#left {
+	width:300px;
+}
+
+#right {
+	width:150px;
+}
+
+button {
+	margin:1em;
+	padding:0.5em;
+	font-size:1.5em;
+}
 /*
 #top, #right, #bottom, #left {
 	background:blue;
