@@ -305,23 +305,31 @@ class yetAnotherPanelsLibrary {
 	}
 
 	showTopPanel() {
-		this.disablePanels();
-		this.showPanel(this.topPanel);
+		if (!this.topPanel.opened) {
+			this.disablePanels();
+			this.showPanel(this.topPanel);
+		}
 	}
 
 	showRightPanel() {
-		this.disablePanels();
-		this.showPanel(this.rightPanel);
+		if (!this.rightPanel.opened) {
+			this.disablePanels();
+			this.showPanel(this.rightPanel);
+		}
 	}
 
 	showBottomPanel() {
-		this.disablePanels();
-		this.showPanel(this.bottomPanel);
+		if (!this.bottomPanel.opened) {
+			this.disablePanels();
+			this.showPanel(this.bottomPanel);
+		}
 	}
 
 	showLeftPanel() {
-		this.disablePanels();
-		this.showPanel(this.leftPanel);
+		if (!this.leftPanel.opened) {
+			this.disablePanels();
+			this.showPanel(this.leftPanel);
+		}
 	}
 
 
