@@ -81,17 +81,24 @@ module.exports = function (grunt) {
     uglify: {
       dist: {
         files: {
-          'lib/scripts.js': [
-            'lib/scripts.js'
+          'lib/lib-min.js': [
+            'lib/lib.js'
           ]
         }
       }
     } 
   });
 
-  grunt.registerTask('default', [
+  grunt.registerTask('build', [
+    'ts:build',
+    'uglify'
+    ])
+
+  grunt.registerTask('server', [
   	'ts:dev',
   	'connect:livereload',
   	'watch'
   	]);
+
+  grunt.registerTask('default', ['build']);
 };
