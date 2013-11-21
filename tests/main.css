@@ -71,6 +71,11 @@ margin-bottom:20px;
 	width:150px;
 }
 
+#map {
+	height:100%;
+	width:100%;
+}
+
 button {
 	margin:1em;
 	padding:0.5em;

@@ -8,6 +8,9 @@ if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i)) {
 
 var mainPanel = $('#main'), leftPanel = $('#left'), rightPanel = $('#right'), topPanel = $('#top'), bottomPanel = $('#bottom'), jwindow = $(window);
 
-var layout = new yetAnotherPanelsLibrary(mainPanel, true, false);
+var layout = new yetAnotherPanelsLibrary(mainPanel, {
+    autoHideOnClose: true,
+    mainPanelMask: false
+});
 
 layout.setTopPanel(topPanel, true).setLeftPanel(leftPanel, false).setRightPanel(rightPanel, false).setBottomPanel(bottomPanel, false).updateView();
