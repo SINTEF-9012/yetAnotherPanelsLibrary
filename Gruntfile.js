@@ -68,12 +68,7 @@ module.exports = function (grunt) {
       livereload: {
         options: {
           open: true,
-          base: [
-          	'lib',
-          	'tests',
-          	'css',
-            'bower_components'
-          ]
+          base: ['.']
         }
       }
     },
