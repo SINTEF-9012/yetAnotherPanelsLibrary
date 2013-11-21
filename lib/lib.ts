@@ -65,6 +65,15 @@ module yapl {
 		}
 
 	}
+
+	export interface options {
+		autoHideOnClose?: boolean;
+		mainPanelMask?: boolean;
+		animationDuration?:number;
+		bounceTime?: number;
+		bounceEasing?:string;
+		preventDefaultException?:any;
+	}
 }
 
 declare var IScroll;
@@ -86,7 +95,16 @@ class yetAnotherPanelsLibrary {
 
 	private mainPanelMask : JQuery;
 
-	constructor(mainPanel: JQuery, autoHideOnClose : boolean = true, mainPanelMask : boolean = true) {
+	private options : yapl.options;
+
+	constructor(mainPanel: JQuery, options?:yapl.options) {
+
+		// Default parameters
+		this.options = $.extend({
+			autoHideOnClose: true,
+			mainPanelMask: true,
+			animationDuration: 300
+			}, options);
 
 		mainPanel.show();
 		mainPanel.addClass("yapl_panel");
@@ -98,16 +116,23 @@ class yetAnotherPanelsLibrary {
 		this.bottomPanel = new yapl.Panel(null, false);
 		this.leftPanel = new yapl.Panel(null, false);
 
-		this.autoHideOnClose = autoHideOnClose;
+		this.autoHideOnClose = this.options.autoHideOnClose;
+		var autoHideOnClose = this.autoHideOnClose;
 
 		this.updateView();
 
-		this.iscroll = new IScroll(this.wrapper.get(0), {
+		this.iscroll = new IScroll(this.wrapper.get(0), $.extend(
+		{
 			mouseWheel: false,
 			scrollX: true,
 			scrollY: true,
-			snap: '.yapl_panel'
-		});
+			snap: '.yapl_panel',
+			// tap:true
+		}, {
+			bounceTime: options.bounceTime,
+			bounceEasing: options.bounceEasing,
+			preventDefaultException: options.preventDefaultException
+			}));
 
 		var obj = this;
 		$(window).on('resize ready', function() {
@@ -115,7 +140,7 @@ class yetAnotherPanelsLibrary {
 			obj.iscroll.scrollToElement(mainPanel.get(0));
 		});
 
-		if (mainPanelMask) {
+		if (this.options.mainPanelMask) {
 			this.mainPanelMask = $('<div class="yapl_mask"></div>')
 				.css({
 					position:'absolute',
@@ -301,9 +326,12 @@ class yetAnotherPanelsLibrary {
 		this.updateView();
 
 		var scroll = this.iscroll,
-			mask = this.mainPanelMask;
+			mask = this.mainPanelMask,
+			duration = this.options.animationDuration,
+			easing = scroll.options.bounceEasing;
+
 		window.setTimeout(function() {
-			scroll.scrollToElement(panel.element.get(0), 300);
+			scroll.scrollToElement(panel.element.get(0), duration, undefined, undefined, easing);
 
 			panel.whenOpened();
 			mask.show();
