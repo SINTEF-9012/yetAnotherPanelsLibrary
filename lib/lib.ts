@@ -37,13 +37,13 @@ module yapl {
 
 		show() {
 			this.active = true;
-			this.element.show();
+			this.element&&this.element.show();
 		}
 
 		hide() {
 			this.active = false;
 			this.opened = false;
-			this.element.hide();
+			this.element&&this.element.hide();
 		}
 
 		whenOpened() {
@@ -144,8 +144,8 @@ class yetAnotherPanelsLibrary {
 			this.mainPanelMask = $('<div class="yapl_mask"></div>')
 				.css({
 					position:'absolute',
-					background: 'rgba(255,0,0,0.5)',
-					zIndex: 12
+					// background: 'rgba(255,0,0,0.5)',
+					zIndex: 10000
 					})
 				.hide()
 				.on('click touchstart', function(e) {
@@ -237,16 +237,19 @@ class yetAnotherPanelsLibrary {
 
 	}
 
-	private generatePanel(panel : JQuery, active : boolean) : yapl.Panel {
+	private generatePanel(panel : JQuery, active : boolean, onOpen: () => void = null, onClose: () => void = null) : yapl.Panel {
 		if(active) {
 			panel.show();
 		} else {
 			panel.hide();
 		}
-
 		panel.addClass("yapl_panel");
 
-		return new yapl.Panel(panel, active);
+		var obj = new yapl.Panel(panel, active);
+		obj.onOpen = onOpen;
+		obj.onClose = onClose;
+
+		return obj;
 	}
 
 	updateView() {
@@ -304,20 +307,20 @@ class yetAnotherPanelsLibrary {
 		return this;
 	}
 
-	setTopPanel(panel : JQuery, active : boolean = false) {
-		this.topPanel = this.generatePanel(panel, active);
+	setTopPanel(panel : JQuery, active : boolean = false, onOpen: () => void = null, onClose: () => void = null) {
+		this.topPanel = this.generatePanel(panel, active, onOpen, onClose);
 		return this;
 	}
-	setRightPanel(panel : JQuery, active : boolean = false) {
-		this.rightPanel = this.generatePanel(panel, active);
+	setRightPanel(panel : JQuery, active : boolean = false, onOpen: () => void = null, onClose: () => void = null) {
+		this.rightPanel = this.generatePanel(panel, active, onOpen, onClose);
 		return this;
 	}
-	setBottomPanel(panel : JQuery, active : boolean = false) {
-		this.bottomPanel = this.generatePanel(panel, active);
+	setBottomPanel(panel : JQuery, active : boolean = false, onOpen: () => void = null, onClose: () => void = null) {
+		this.bottomPanel = this.generatePanel(panel, active, onOpen, onClose);
 		return this;
 	}
-	setLeftPanel(panel : JQuery, active : boolean = false) {
-		this.leftPanel = this.generatePanel(panel, active);
+	setLeftPanel(panel : JQuery, active : boolean = false, onOpen: () => void = null, onClose: () => void = null) {
+		this.leftPanel = this.generatePanel(panel, active, onOpen, onClose);
 		return this;
 	}
 
