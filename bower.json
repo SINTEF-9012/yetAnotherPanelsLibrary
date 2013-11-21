@@ -1,8 +1,25 @@
 {
   "name": "yetAnotherPanelsLibrary",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "dependencies": {
     "iscroll": "~5.0.6",
     "jquery": "~2.0.3"
-  }
+  },
+  "homepage": "https://github.com/SINTEF-9012/yetAnotherPanelsLibrary",
+  "description": "Simple HTML5 panels library",
+  "main": "lib/yapl.js",
+  "keywords": [
+    "panels",
+    "html5",
+    "library",
+    "typescript"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
 }
