@@ -37,13 +37,13 @@ module yapl {
 
 		show() {
 			this.active = true;
-			this.element.show();
+			this.element&&this.element.show();
 		}
 
 		hide() {
 			this.active = false;
 			this.opened = false;
-			this.element.hide();
+			this.element&&this.element.hide();
 		}
 
 		whenOpened() {
@@ -64,6 +64,15 @@ module yapl {
 			}
 		}
 
+	}
+
+	export interface options {
+		autoHideOnClose?: boolean;
+		mainPanelMask?: boolean;
+		animationDuration?:number;
+		bounceTime?: number;
+		bounceEasing?:string;
+		preventDefaultException?:any;
 	}
 }
 
@@ -86,7 +95,16 @@ class yetAnotherPanelsLibrary {
 
 	private mainPanelMask : JQuery;
 
-	constructor(mainPanel: JQuery, autoHideOnClose : boolean = true, mainPanelMask : boolean = true) {
+	private options : yapl.options;
+
+	constructor(mainPanel: JQuery, options?:yapl.options) {
+
+		// Default parameters
+		this.options = $.extend({
+			autoHideOnClose: true,
+			mainPanelMask: true,
+			animationDuration: 300
+			}, options);
 
 		mainPanel.show();
 		mainPanel.addClass("yapl_panel");
@@ -98,16 +116,23 @@ class yetAnotherPanelsLibrary {
 		this.bottomPanel = new yapl.Panel(null, false);
 		this.leftPanel = new yapl.Panel(null, false);
 
-		this.autoHideOnClose = autoHideOnClose;
+		this.autoHideOnClose = this.options.autoHideOnClose;
+		var autoHideOnClose = this.autoHideOnClose;
 
 		this.updateView();
 
-		this.iscroll = new IScroll(this.wrapper.get(0), {
+		this.iscroll = new IScroll(this.wrapper.get(0), $.extend(
+		{
 			mouseWheel: false,
 			scrollX: true,
 			scrollY: true,
-			snap: '.yapl_panel'
-		});
+			snap: '.yapl_panel',
+			// tap:true
+		}, {
+			bounceTime: options.bounceTime,
+			bounceEasing: options.bounceEasing,
+			preventDefaultException: options.preventDefaultException
+			}));
 
 		var obj = this;
 		$(window).on('resize ready', function() {
@@ -115,12 +140,12 @@ class yetAnotherPanelsLibrary {
 			obj.iscroll.scrollToElement(mainPanel.get(0));
 		});
 
-		if (mainPanelMask) {
+		if (this.options.mainPanelMask) {
 			this.mainPanelMask = $('<div class="yapl_mask"></div>')
 				.css({
 					position:'absolute',
-					background: 'rgba(255,0,0,0.5)',
-					zIndex: 12
+					// background: 'rgba(255,0,0,0.5)',
+					zIndex: 10000
 					})
 				.hide()
 				.on('click touchstart', function(e) {
@@ -212,16 +237,19 @@ class yetAnotherPanelsLibrary {
 
 	}
 
-	private generatePanel(panel : JQuery, active : boolean) : yapl.Panel {
+	private generatePanel(panel : JQuery, active : boolean, onOpen: () => void = null, onClose: () => void = null) : yapl.Panel {
 		if(active) {
 			panel.show();
 		} else {
 			panel.hide();
 		}
-
 		panel.addClass("yapl_panel");
 
-		return new yapl.Panel(panel, active);
+		var obj = new yapl.Panel(panel, active);
+		obj.onOpen = onOpen;
+		obj.onClose = onClose;
+
+		return obj;
 	}
 
 	updateView() {
@@ -279,20 +307,20 @@ class yetAnotherPanelsLibrary {
 		return this;
 	}
 
-	setTopPanel(panel : JQuery, active : boolean = false) {
-		this.topPanel = this.generatePanel(panel, active);
+	setTopPanel(panel : JQuery, active : boolean = false, onOpen: () => void = null, onClose: () => void = null) {
+		this.topPanel = this.generatePanel(panel, active, onOpen, onClose);
 		return this;
 	}
-	setRightPanel(panel : JQuery, active : boolean = false) {
-		this.rightPanel = this.generatePanel(panel, active);
+	setRightPanel(panel : JQuery, active : boolean = false, onOpen: () => void = null, onClose: () => void = null) {
+		this.rightPanel = this.generatePanel(panel, active, onOpen, onClose);
 		return this;
 	}
-	setBottomPanel(panel : JQuery, active : boolean = false) {
-		this.bottomPanel = this.generatePanel(panel, active);
+	setBottomPanel(panel : JQuery, active : boolean = false, onOpen: () => void = null, onClose: () => void = null) {
+		this.bottomPanel = this.generatePanel(panel, active, onOpen, onClose);
 		return this;
 	}
-	setLeftPanel(panel : JQuery, active : boolean = false) {
-		this.leftPanel = this.generatePanel(panel, active);
+	setLeftPanel(panel : JQuery, active : boolean = false, onOpen: () => void = null, onClose: () => void = null) {
+		this.leftPanel = this.generatePanel(panel, active, onOpen, onClose);
 		return this;
 	}
 
@@ -301,9 +329,12 @@ class yetAnotherPanelsLibrary {
 		this.updateView();
 
 		var scroll = this.iscroll,
-			mask = this.mainPanelMask;
+			mask = this.mainPanelMask,
+			duration = this.options.animationDuration,
+			easing = scroll.options.bounceEasing;
+
 		window.setTimeout(function() {
-			scroll.scrollToElement(panel.element.get(0), 300);
+			scroll.scrollToElement(panel.element.get(0), duration, undefined, undefined, easing);
 
 			panel.whenOpened();
 			mask.show();

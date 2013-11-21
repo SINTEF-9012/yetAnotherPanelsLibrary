@@ -28,7 +28,12 @@ var mainPanel = $('#main'),
 	jwindow = $(window);
 
 
-var layout = new yetAnotherPanelsLibrary(mainPanel, true, false);
+var layout = new yetAnotherPanelsLibrary(mainPanel, {
+	autoHideOnClose: true,
+	mainPanelMask: false,
+	// bounceTime: 300,
+	// bounceEasing: 'bounce'
+	});
 
 layout.setTopPanel(topPanel, true)
 	.setLeftPanel(leftPanel,false)
