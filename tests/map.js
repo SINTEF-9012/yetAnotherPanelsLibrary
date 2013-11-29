@@ -10,7 +10,7 @@ var mainPanel = $('#main'), topPanel = $('#top'), jwindow = $(window);
 
 var layout = new yetAnotherPanelsLibrary(mainPanel, {
     autoHideOnClose: true,
-    mainPanelMask: true
+    mainPanelMask: false
 });
 
 var nbTouchs = 0, lastTouchMove = 0, touchEnabled = true;
@@ -72,6 +72,8 @@ window.setInterval(function () {
     }
 }, 500);
 
+var panelOpen = false;
+
 var map = L.map('map').setView([51.505, -0.09], 13);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -91,7 +93,13 @@ var MyControl = L.Control.extend({
         var container = L.DomUtil.create('button', 'my-custom-control');
         container.appendChild(document.createTextNode("Top panel"));
         container.onclick = function () {
-            layout.showTopPanel();
+            if (!panelOpen) {
+                layout.showTopPanel();
+                container.firstChild.data = "Map";
+            } else {
+                layout.showMainPanel();
+                container.firstChild.data = "Top panel";
+            }
         };
 
         // ... initialize other DOM elements, add listeners, etc.
@@ -103,6 +111,7 @@ map.addControl(new MyControl());
 
 layout.setTopPanel(topPanel, true, function () {
     console.log("cool open");
+
     // map.dragging.disable();
     // map.touchZoom.disable();
     // map.doubleClickZoom.disable();
@@ -110,8 +119,10 @@ layout.setTopPanel(topPanel, true, function () {
     // map.boxZoom.disable();
     // map.keyboard.disable();
     // map.tap&&map.tap.disable();
+    panelOpen = true;
 }, function () {
     console.log("cool close");
+    panelOpen = false;
     // map.dragging.enable();
     // map.touchZoom.enable();
     // map.doubleClickZoom.enable();

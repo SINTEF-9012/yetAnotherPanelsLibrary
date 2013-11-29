@@ -101,8 +101,8 @@ class yetAnotherPanelsLibrary {
 
 		// Default parameters
 		this.options = $.extend({
-			autoHideOnClose: true,
-			mainPanelMask: true,
+			autoHideOnClose: false,
+			mainPanelMask: false,
 			animationDuration: 300
 			}, options);
 
@@ -340,6 +340,12 @@ class yetAnotherPanelsLibrary {
 			mask.show();
 
 		}, 0);
+	}
+
+	showMainPanel() {
+		this.iscroll.scrollToElement(this.mainPanel.element.get(0),this.options.animationDuration,
+			undefined, undefined,
+			this.iscroll.options.bounceEasing);
 	}
 
 	showTopPanel() {
