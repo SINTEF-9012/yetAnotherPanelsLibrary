@@ -71,7 +71,8 @@ module yapl {
 		mainPanelMask?: boolean;
 		animationDuration?:number;
 		bounceTime?: number;
-		bounceEasing?:string;
+		snapSpeed?: number;
+		bounceEasing?:any;
 		preventDefaultException?:any;
 	}
 }
@@ -103,7 +104,8 @@ class yetAnotherPanelsLibrary {
 		this.options = $.extend({
 			autoHideOnClose: false,
 			mainPanelMask: false,
-			animationDuration: 300
+			animationDuration: 300,
+			snapSpeed: 300
 			}, options);
 
 		mainPanel.show();
@@ -131,7 +133,9 @@ class yetAnotherPanelsLibrary {
 		}, {
 			bounceTime: options.bounceTime,
 			bounceEasing: options.bounceEasing,
-			preventDefaultException: options.preventDefaultException
+			preventDefaultException: options.preventDefaultException,
+			snapSpeed: options.snapSpeed,
+			animationDuration: options.animationDuration
 			}));
 
 		var obj = this;

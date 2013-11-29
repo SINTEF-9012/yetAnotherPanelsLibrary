@@ -19,7 +19,8 @@ declare module yapl {
         mainPanelMask?: boolean;
         animationDuration?: number;
         bounceTime?: number;
-        bounceEasing?: string;
+        snapSpeed?: number;
+        bounceEasing?: any;
         preventDefaultException?: any;
     }
 }

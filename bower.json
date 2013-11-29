@@ -1,6 +1,6 @@
 {
   "name": "yetAnotherPanelsLibrary",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "dependencies": {
     "iscroll": "~5.0.6",
     "jquery": "~2.0.3"
